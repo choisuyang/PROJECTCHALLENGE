@@ -13,6 +13,15 @@ class HomePage():
 
     def __init__(self, driver):
         self.driver = driver
+        self.wait = WebDriverWait(self.driver, 10)
+        
+    def close_popup(self):
+        self.driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[3]/button[2]").click()
+        time.sleep(5)
+        
+    def move_login_page(self):
+        self.driver.find_element(By.XPATH,"//ul[@class='bar_util']/li[4]/a").click()
+        # self.driver.wait.until(EC.element_to_be_clickable((By.XPATH, "//ul[@class='bar_util']/li[4]/a"))).click()
         
     def move_home(self):
         self.driver.find_element(By.XPATH, "//*[@id='footer']/div[2]/ul/li[1]/a").click()
@@ -35,5 +44,6 @@ class HomePage():
         time.sleep(5)
         
     def go_to_ranking_tab(self):
-        self.driver.find_element(By.XPATH, "/html/body/div[2]/header/div/div[2]/div/nav/ul/li[10]/a").click()
+        ranking_tab = self.wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[2]/header/div/div[2]/div/nav/ul/li[10]/a")))
+        ranking_tab.click()
         time.sleep(5)
