@@ -11,6 +11,9 @@ from features.pages.LoginPage import LoginPage
 from features.pages.MyZonePage import MyZonePage
 from features.pages.HomePage import HomePage
 from features.pages.RankingPage import RankingPage
+from features.pages.ProductPage import ProductPage
+from features.pages.OrderPage import OrderPage
+
 
 def before_all(context):
     # 로그 설정
@@ -43,6 +46,8 @@ def before_all(context):
     context.my_zone_page = MyZonePage(context.driver)
     context.home_page = HomePage(context.driver)
     context.ranking_page = RankingPage(context.driver)
+    context.product_page = ProductPage(context.driver)
+    context.order_page = OrderPage(context.driver)
     context.driver.get(config.LIVE_URL)
 
 def after_all(context):

@@ -10,4 +10,12 @@ Feature: Login and navigate through the application
     And move to the home page
     And the user swipes right to view rankings
     And the user navigates to the ranking tab
-    And the user selects the first ranking item
+    Then the user selects the first ranking item
+    Given click the option button
+    When click option area
+    Then click the purchase button
+    Given check the order page
+    When scroll and find payment text
+    When change payment method to one click payment
+    Then click last purchase button
+    

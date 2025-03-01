@@ -50,3 +50,33 @@ def step_impl(context):
 def step_impl(context):
     # context.ranking_page = context.ranking_page or RankingPage(context.driver)
     context.ranking_page.first_item_click()
+    
+@given('click the option button')
+def step_impl(context):
+    context.product_page.check_alert()
+    context.product_page.click_the_option_button()
+    
+    
+@when('click option area')
+def step_impl(context):
+    context.product_page.click_option_area()
+    
+@then('click the purchase button')
+def step_impl(context):
+    context.product_page.click_the_purchase_button()
+    
+@given('check the order page')
+def step_impl(context):
+    context.order_page.check_the_order_page()
+
+@when('scroll and find payment text')
+def step_impl(context):
+    context.order_page.scroll_to_element_by_xpath("//*[@id='order_cash_receipt']/div[1]/h3")
+    
+@when('change payment method to one click payment')
+def step_impl(context):
+    context.order_page.change_payment_method()
+    
+@then('click last purchase button')
+def step_impl(context):
+    context.order_page.click_last_purchase_button()
