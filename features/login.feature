@@ -17,5 +17,4 @@ Feature: Login and navigate through the application
     Given check the order page
     When scroll and find payment text
     When change payment method to one click payment
-    Then click last purchase button
     

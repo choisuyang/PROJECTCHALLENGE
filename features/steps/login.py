@@ -77,6 +77,6 @@ def step_impl(context):
 def step_impl(context):
     context.order_page.change_payment_method()
     
-@then('click last purchase button')
-def step_impl(context):
-    context.order_page.click_last_purchase_button()
+# @then('click last purchase button')
+# def step_impl(context):
+#     context.order_page.click_last_purchase_button()
