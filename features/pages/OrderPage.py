@@ -25,20 +25,34 @@ class OrderPage():
         time.sleep(5)
         self.driver.find_element(By.XPATH, "//*[@id='_btn_change_payment']").click()
         time.sleep(10)
-            
-        # 라벨 요소 가져오기
-        # label = self.wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='oneclick-payment-control-view']/div[1]/div/div/ul/li[1]/button")))
-        # print("----------------->",label)
-        label = self.driver.find_element(By.XPATH, "//*[@id='oneclick-payment-control-view']/div[1]/div/div/ul/li[1]")
+        
+        # blind = self.driver.find_element(By.XPATH, "//*[@id='radiooneclick']")
 
-        # # 스크롤 이동
-        self.driver.execute_script("arguments[0].scrollIntoView();", label)
-        self.driver.execute_script("window.scrollBy(0, -130);")
+        # JavaScript를 사용하여 display 속성을 변경
+        # self.driver.execute_script("arguments[0].style.display = 'inline-block';", blind)
+        
+        # time.sleep(5)
+        # self.driver.execute_script("arguments[0].click();", blind)
+        # JavaScript로 <input> 요소 제거
+        self.driver.execute_script("document.getElementById('radiooneclick').remove();")
+
+        # 연결된 <label> 요소 클릭
+        label_element = self.driver.find_element(By.XPATH, "//*[@id='oneclick-payment-control-view']/div[1]/div/div/ul/li[1]/label")
+        label_element.click()
+        time.sleep(5)
+        
+        # radio_button = self.driver.find_element(By.XPATH, '//*[@id="8E5AD34D4B5D5FBC6F807F8539F0742247C55D5797326E28B1A627643801468EXI1"]')
+        
+        # radio_button.click()
+        
+        # label_element = self.driver.find_element(By.XPATH, "//*[@id='oneclick-payment-control-view']/div[1]/div/div/ul/li[1]/label/span")
+        # self.driver.execute_script("arguments[0].click();", label_element)
+        # label_element.click()
+        # time.sleep(5)
+        
+        # assert label_element.is_selected(), "❌ 현대카드가 선택되지 않았습니다!"
+
         time.sleep(10)
-        label.click()
-        time.sleep(5)
-        self.driver.find_element(By.XPATH, "//*[@id='_select_oneClick_installment']").click()
-        time.sleep(5)
 
 
         # # 클릭 시도
