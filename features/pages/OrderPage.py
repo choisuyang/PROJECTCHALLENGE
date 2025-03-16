@@ -6,8 +6,26 @@ import pyautogui
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import ActionChains
+import logging
 
+logger = logging.getLogger("AppiumTest")
 
+# 보안 키패드 숫자 이미지 경로 (각 숫자별로 PNG로 저장해둬야 함)
+number_images = {
+    # '1': 'img/1.png',
+    # '2': 'img/2.png',
+    '3': 'img/3.png',
+    # '4': 'img/4.png',
+    # '5': 'img/5.png',
+    '6': 'img/6.png',
+    '7': 'img/7.png',
+    # '8': 'img/8.png',
+    '9': 'img/9.png',
+    # '0': 'img/0.png'
+}
+
+# 입력할 비밀번호 (예: 485172)
+password = '369777'
 
 
 class OrderPage():
@@ -18,58 +36,19 @@ class OrderPage():
 
         
     def check_the_order_page(self):
+        time.sleep(10)
+        self.driver.find_element(By.XPATH, "//*[@id='naver']").click()
+        time.sleep(40)
         orderPageTitle = self.driver.find_element(By.XPATH,"//*[@id='header']/div/h1").text
         return orderPageTitle.strip() == "주문서"
     
     def change_payment_method(self):
-        time.sleep(5)
-        self.driver.find_element(By.XPATH, "//*[@id='_btn_change_payment']").click()
-        time.sleep(10)
-        
-        # blind = self.driver.find_element(By.XPATH, "//*[@id='radiooneclick']")
-
-        # JavaScript를 사용하여 display 속성을 변경
-        # self.driver.execute_script("arguments[0].style.display = 'inline-block';", blind)
-        
         # time.sleep(5)
-        # self.driver.execute_script("arguments[0].click();", blind)
-        # JavaScript로 <input> 요소 제거
-        self.driver.execute_script("document.getElementById('radiooneclick').remove();")
-
-        # 연결된 <label> 요소 클릭
-        label_element = self.driver.find_element(By.XPATH, "//*[@id='oneclick-payment-control-view']/div[1]/div/div/ul/li[1]/label")
-        label_element.click()
+        self.driver.find_element(By.XPATH, "//*[@id='bottomOrderButtonSection']/button").click()
         time.sleep(5)
-        
-        # radio_button = self.driver.find_element(By.XPATH, '//*[@id="8E5AD34D4B5D5FBC6F807F8539F0742247C55D5797326E28B1A627643801468EXI1"]')
-        
-        # radio_button.click()
-        
-        # label_element = self.driver.find_element(By.XPATH, "//*[@id='oneclick-payment-control-view']/div[1]/div/div/ul/li[1]/label/span")
-        # self.driver.execute_script("arguments[0].click();", label_element)
-        # label_element.click()
-        # time.sleep(5)
-        
-        # assert label_element.is_selected(), "❌ 현대카드가 선택되지 않았습니다!"
-
-        time.sleep(10)
-
-
-        # # 클릭 시도
-        # try:
-        #     label.click()  # 기본 클릭
-        #     selected_input = self.driver.find_element(By.XPATH, "//*[@id='oneclick-payment-control-view']/div[1]/div/div/ul/li[1]/button")
-        #     assert selected_input.is_selected(), "❌ 현대카드가 선택되지 않았습니다!"
-        #     time.sleep(10)
-            
-        # except Exception as e:
-        #    assert False, f"❌ 현대카드 선택 중 오류 발생: {str(e)}"
-
-        
-    
-    # def click_last_purchase_button(self):
         
     def scroll_to_element_by_xpath(self, xpath):
+        logger.info("start")
         try:
             element = WebDriverWait(self.driver, 10).until(  # ✅ self.driver 사용
                 EC.presence_of_element_located((By.XPATH, xpath))
@@ -80,9 +59,58 @@ class OrderPage():
         except Exception as e:
             print(f"❌ 스크롤할 요소를 찾을 수 없습니다: {xpath}, 오류: {e}")
             return None  # 실패 시 None 반환
+        
+    def click_password_image(self):
+        # 현재 윈도우 핸들 저장
+        original_window = self.driver.current_window_handle
+
+        # 모든 윈도우 핸들 가져오기
+        all_windows = self.driver.window_handles
+
+        # 새로 열린 창으로 전환
+        for window in all_windows:
+            if window != original_window:
+                self.driver.switch_to.window(window)
+                break
+        title = self.driver.find_element(By.XPATH, "//*[@id='txt1']").text
+        print("titled: %s,",title)
+        logger.info("title: %s", title)
+        
+        print(f"❌ 스크롤할 요소를 찾을 수 없습니다: {title}, 오류: {title}")
+        # 이미지 검색 및 클릭 함수
+        def click_number(num):
+            img_path = number_images[num]
+            location = pyautogui.locateCenterOnScreen(img_path, confidence=0.8)
+            if location:
+                pyautogui.click(location)
+                time.sleep(0.3)  # 안정성을 위해 딜레이 추가
+                
+         # 비밀번호 입력
+        for digit in password:
+            click_number(digit)
+        # self.search_image(3)
+        
+        
+        # 새 창에서 작업 수행 후, 원래 창으로 돌아오기
+        self.driver.close()  # 새 창 닫기
+        self.driver.switch_to.window(original_window)
+        
+    
+        
+        
     
     def search_image(self,searchImage):
-        img_path_keypad = os.path.join(os.path.dirname(__file__), 'img', searchImage)  # 이미지 경로 설정
+        # img_path_keypad = os.path.join(os.path.dirname(__file__), 'png', searchImage)  # 이미지 경로 설정
+        # img_path_keypad = os.path.join(os.path.dirname(__file__), 'img', f"{searchImage}.png")
+        # 프로젝트 루트 기준으로 경로 설정
+        PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))  # 현재 파일의 상위 폴더
+        IMG_DIR = os.path.join(PROJECT_ROOT, "features", "img")  # 이미지 폴더 경로
+
+        def get_image_path(searchImage):
+            return os.path.join(IMG_DIR, f"{searchImage}.png")
+        
+        img_path_keypad = get_image_path(searchImage)
+
         print(f"이미지 위치 찾는 중: {img_path_keypad}")
         
         attempt = 0

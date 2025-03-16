@@ -13,6 +13,7 @@ class ProductPage():
 
         
     def check_alert(self):
+        time.sleep(10)
         self.driver.find_element(By.XPATH, "//*[@id='wrap']/div[1]/div/div/div/button").click()
         time.sleep(5)
         

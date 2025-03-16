@@ -32,10 +32,11 @@ def step_impl(context):
 def step_impl(context):
     context.my_zone_page.check_login_success()
     
-@then('move to the home page')
+@given('move to the home page')
 def stp_impl(context):
-    context.home_page.move_home()
-    context.home_page.close_popup()
+    context.home_page.close_popup() # 임시로 추가 추후 로그인 고쳐지면 삭제
+    # context.home_page.move_home()
+    # context.home_page.close_popup()
 
 @then('the user swipes right to view rankings')
 def step_impl(context):
@@ -77,6 +78,6 @@ def step_impl(context):
 def step_impl(context):
     context.order_page.change_payment_method()
     
-# @then('click last purchase button')
-# def step_impl(context):
-#     context.order_page.click_last_purchase_button()
+@then('click password image button')
+def step_impl(context):
+    context.order_page.click_password_image()

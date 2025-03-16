@@ -24,7 +24,8 @@ class HomePage():
         # self.driver.wait.until(EC.element_to_be_clickable((By.XPATH, "//ul[@class='bar_util']/li[4]/a"))).click()
         
     def move_home(self):
-        self.driver.find_element(By.XPATH, "//*[@id='popup_spot']/div/div/div/div[2]/button").click()
+        time.sleep(5)
+        # self.driver.find_element(By.XPATH, "//*[@id='popup_spot']/div/div/div/div[2]/button").click()
         self.driver.find_element(By.XPATH, "//*[@id='footer']/div[2]/ul/li[1]/a").click()
         time.sleep(5)
         

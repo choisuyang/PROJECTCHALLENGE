@@ -8,6 +8,6 @@ class RankingPage():
         self.driver = driver
 
     def first_item_click(self):
-        self.driver.find_element(By.XPATH,"//*[@id='tabpanel1']/ul/li[4]/div/a").click()
+        self.driver.find_element(By.XPATH,"//*[@id='tabpanel1']/ul/li[1]/div/a").click()
         time.sleep(10)
     

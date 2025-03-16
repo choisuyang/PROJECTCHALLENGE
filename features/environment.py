@@ -5,6 +5,7 @@ import logging
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import json
 
 from selenium.webdriver.common.by import By
 from features.pages.LoginPage import LoginPage
@@ -34,11 +35,23 @@ def before_all(context):
     options.browser_name = "Chrome"
     options.automation_name = "UiAutomator2"
     options.no_reset = True
+    options.full_reset = False
     options.chromedriver_executable = config.CHROMEDRIVER_PATH
     
     appium_server_url = "http://127.0.0.1:4723/wd/hub"
     context.driver = webdriver.Remote(appium_server_url, options=options)
     context.wait = WebDriverWait(context.driver, 10)
+    
+    # 이전에 저장된 쿠키 불러오기 (로그인 세션 유지)
+    try:
+        with open("cookies.json", "r") as file:
+            cookies = json.load(file)
+        for cookie in cookies:
+            context.driver.add_cookie(cookie)
+        context.driver.refresh()
+    except FileNotFoundError:
+        print("쿠키 파일 없음, 새 로그인 시작.")
+   
     
     # Appium 설정 초기화
     # context.driver = context.create_driver()  # Custom driver factory 활용
