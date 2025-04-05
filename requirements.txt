@@ -1,3 +1,5 @@
+allure-behave==2.14.0
+allure-python-commons==2.14.0
 Appium-Python-Client==4.5.1
 attrs==24.3.0
 behave==1.2.6
