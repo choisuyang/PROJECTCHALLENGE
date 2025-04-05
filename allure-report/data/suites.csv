@@ -1,0 +1,2 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","15897","Login to the app and navigate to ranking","WebInterface","Sat Apr 05 15:25:24 KST 2025","passed","Sat Apr 05 15:25:40 KST 2025","Labels","EssentialFeatures","",""

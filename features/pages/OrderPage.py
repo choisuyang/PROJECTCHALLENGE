@@ -115,7 +115,7 @@ class OrderPage():
 
         while attempts < max_attempts:
             print(f"이미지 {img_num}.png 검색 시도 {attempts + 1}/{max_attempts}...")
-            location = pyautogui.locateOnScreen(image_path, confidence=0.8)
+            location = pyautogui.locateOnScreen(image_path, confidence=0.9)
             
             if location:
                 print(f"이미지 {img_num}.png 위치 발견: {location}")
@@ -137,10 +137,6 @@ class OrderPage():
                 time.sleep(1)  # 잠깐 대기 후 재시도
                 attempts += 1
                 
-    # def click_the_last_purchase_button(self):
-    #     time.sleep(5)
-    #     self.driver.find_element(By.XPATH, "//*[@id='nppfs-keypad-cop_pwd']/div/div/img[16]").click()
-    #     time.sleep(10)
     
     def check_success_message(self):
         time.sleep(20)
