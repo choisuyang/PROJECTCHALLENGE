@@ -46,6 +46,6 @@ class HomePage():
         time.sleep(5)
         
     def go_to_ranking_tab(self):
-        ranking_tab = self.wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[2]/header/div/div[2]/div/nav/ul/li[11]/a")))
+        ranking_tab = self.wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[2]/header/div/div[2]/div/nav/ul/li[9]/a")))
         ranking_tab.click()
         time.sleep(5)

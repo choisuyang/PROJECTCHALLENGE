@@ -5,27 +5,13 @@ import os
 import pyautogui
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver import ActionChains
 import logging
+from selenium.webdriver.common.action_chains import ActionChains
+
+
+
 
 logger = logging.getLogger("AppiumTest")
-
-# 보안 키패드 숫자 이미지 경로 (각 숫자별로 PNG로 저장해둬야 함)
-number_images = {
-    # '1': 'img/1.png',
-    # '2': 'img/2.png',
-    '3': 'img/3.png',
-    # '4': 'img/4.png',
-    # '5': 'img/5.png',
-    '6': 'img/6.png',
-    '7': 'img/7.png',
-    # '8': 'img/8.png',
-    '9': 'img/9.png',
-    # '0': 'img/0.png'
-}
-
-# 입력할 비밀번호 (예: 485172)
-password = '369777'
 
 
 class OrderPage():
@@ -60,7 +46,9 @@ class OrderPage():
             print(f"❌ 스크롤할 요소를 찾을 수 없습니다: {xpath}, 오류: {e}")
             return None  # 실패 시 None 반환
         
-    def click_password_image(self):
+    def click_password_image(self,img_num):
+        time.sleep(8)
+
         # 현재 윈도우 핸들 저장
         original_window = self.driver.current_window_handle
 
@@ -72,60 +60,126 @@ class OrderPage():
             if window != original_window:
                 self.driver.switch_to.window(window)
                 break
+            
         title = self.driver.find_element(By.XPATH, "//*[@id='txt1']").text
         print("titled: %s,",title)
         logger.info("title: %s", title)
         
-        print(f"❌ 스크롤할 요소를 찾을 수 없습니다: {title}, 오류: {title}")
-        # 이미지 검색 및 클릭 함수
-        def click_number(num):
-            img_path = number_images[num]
-            location = pyautogui.locateCenterOnScreen(img_path, confidence=0.8)
-            if location:
-                pyautogui.click(location)
-                time.sleep(0.3)  # 안정성을 위해 딜레이 추가
-                
-         # 비밀번호 입력
-        for digit in password:
-            click_number(digit)
-        # self.search_image(3)
+        print("img_num====> : %s", img_num)
         
-        
-        # 새 창에서 작업 수행 후, 원래 창으로 돌아오기
-        self.driver.close()  # 새 창 닫기
+        # img_num을 문자열로 변환 후 개별 숫자 리스트로 분리
+        img_numbers = list(str(img_num))
+        print("이미지 리스트====> :", img_numbers)
+
+        # 각 숫자에 대해 click_password_image_module 실행
+        for number in img_numbers:
+            print(f"{number}.png 이미지를 찾고 클릭 시도 중...")
+            success = self.click_password_image_module(number)  # 숫자를 개별적으로 전달
+            
+            if not success:
+                print(f"이미지 {number}.png 화면에서 찾을 수 없었습니다. 최대 시도 횟수를 초과했습니다.")
+                return False  # 이미지 찾기 실패 시 중단'
+        # 모든 이미지를 클릭한 후 기본 창으로 복귀
         self.driver.switch_to.window(original_window)
+        print("기본 창으로 성공적으로 복귀했습니다.")
+        return True  # 모든 이미지 찾기 성공 
         
+        # self.click_password_image_module(img_num)
+        
+        # print(f"이미지 {img_num}.png 화면에서 찾을 수 없었습니다. 최대 시도 횟수를 초과했습니다.")
+        # return False  # 이미지 찾기 실패 
     
+    def click_password_image_module(self,img_num ,max_attempts=5):
+        attempts = 0
         
+        project_root = os.path.abspath(os.path.join(__file__, "../../.."))
+        img_path = os.path.join(project_root, 'features/img/')
         
-    
-    def search_image(self,searchImage):
-        # img_path_keypad = os.path.join(os.path.dirname(__file__), 'png', searchImage)  # 이미지 경로 설정
-        # img_path_keypad = os.path.join(os.path.dirname(__file__), 'img', f"{searchImage}.png")
-        # 프로젝트 루트 기준으로 경로 설정
-        PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))  # 현재 파일의 상위 폴더
-        IMG_DIR = os.path.join(PROJECT_ROOT, "features", "img")  # 이미지 폴더 경로
+        # 이미지 파일 확장자 추가
+        # if isinstance(img_num, int):
+        #     img_num = f"{img_num}.png"  # '3.png'로 변환
+        
+        # img_num에 확장자 추가
+        if isinstance(img_num, int) or not img_num.endswith(".png"):
+            img_num = f"{img_num}.png"
+        
+        # 이미지 절대 경로 생성
+        image_path = os.path.join(img_path, img_num)
+        
+         # 디버깅 출력 추가
+        print(f"최종 이미지 경로: {image_path}")
+        print(f"파일 존재 여부: {os.path.exists(image_path)}")
+        
+        print(f"이미지 경로: {image_path}")
+        print(f"파일 존재 여부: {os.path.exists(image_path)}")
 
-        def get_image_path(searchImage):
-            return os.path.join(IMG_DIR, f"{searchImage}.png")
-        
-        img_path_keypad = get_image_path(searchImage)
+        while attempts < max_attempts:
+            print(f"이미지 {img_num}.png 검색 시도 {attempts + 1}/{max_attempts}...")
+            location = pyautogui.locateOnScreen(image_path, confidence=0.8)
+            
+            if location:
+                print(f"이미지 {img_num}.png 위치 발견: {location}")
 
-        print(f"이미지 위치 찾는 중: {img_path_keypad}")
-        
-        attempt = 0
-        max_attempts = 10  # 10번까지만 시도
-        
-        while attempt < max_attempts:
-            img_capture = pyautogui.locateOnScreen(img_path_keypad, confidence=0.8)  # confidence 추가 (유사도 80%)
-            if img_capture is None:
-                print(f"[{attempt + 1}/{max_attempts}] 이미지 못 찾음, 다시 시도 중...")
-                time.sleep(2)  # 2초 후 재시도
-                attempt += 1
+                # 중앙 좌표 계산 및 배율 보정
+                center_x, center_y = pyautogui.center(location)
+                center_x = center_x // 2  # X좌표 보정
+                center_y = center_y // 2  # Y좌표 보정
+                print(f"보정된 좌표: ({center_x}, {center_y})")
+
+                # 이동 및 클릭
+                pyautogui.moveTo(center_x, center_y, duration=0.9)
+                pyautogui.click(center_x, center_y)
+                time.sleep(2)
+                print(f"이미지 {img_num}.png 클릭 완료! ({center_x}, {center_y})")
+                return True  # 이미지 찾기 성공
             else:
-                center_x, center_y = pyautogui.center(img_capture)  # 중심 좌표 찾기
-                pyautogui.click(center_x, center_y)  # 클릭
-                print(f"이미지 클릭 완료: {center_x}, {center_y}")
-                break
-        else:
-            print("이미지 찾기 실패. 프로그램 종료")
+                print(f"이미지 {img_num}.png 화면에서 찾을 수 없음. 다음 시도...")
+                time.sleep(1)  # 잠깐 대기 후 재시도
+                attempts += 1
+                
+    # def click_the_last_purchase_button(self):
+    #     time.sleep(5)
+    #     self.driver.find_element(By.XPATH, "//*[@id='nppfs-keypad-cop_pwd']/div/div/img[16]").click()
+    #     time.sleep(10)
+    
+    def check_success_message(self):
+        time.sleep(20)
+        check_message = self.wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='header']/div/h1")))
+        print("check_message: %s",check_message)
+        return check_message.strip() == "주문완료"
+        
+        
+
+    #    # locateOnScreen으로 화면에서 이미지 
+    #     location = pyautogui.locateOnScreen(image_path, confidence=0.8) 
+    #     print('location--->',location)
+    #     # pyautogui.center(location)
+    #     # pyautogui.moveTo(location, duration=0.6)
+    #     # pyautogui.click(location)
+    #     if location:
+    #         print(f"이미지 {img_num}.png 위치 발견: {location}")
+
+    #         # 중앙 좌표 계산 및 배율 보정
+    #         center_x, center_y = pyautogui.center(location)
+    #         center_x = center_x // 2  # X좌표 보정
+    #         center_y = center_y // 2  # Y좌표 보정
+    #         print(f"보정된 좌표: ({center_x}, {center_y})")
+
+    #         # 이동 및 클릭
+    #         pyautogui.moveTo(center_x, center_y, duration=0.6)
+    #         pyautogui.click(center_x, center_y)
+    #         time.sleep(2)
+    #         print(f"이미지 {img_num}.png 클릭 완료! ({center_x}, {center_y})")
+    #     else:
+    #         print(f"이미지 {img_num}.png 화면에서 찾을 수 없음.")
+        # location = pyautogui.locateCenterOnScreen(image_path, confidence=0.4)
+        
+        # if location is not None:
+        #     pyautogui.click(location)
+        #     time.sleep(0.3)  # 안정성 확보를 위한 딜레이
+        #     print("이미지 클릭 성공!")
+        # else:
+        #     raise pyautogui.ImageNotFoundException(f"이미지 인식 실패: {image_path}")
+        
+        
+        

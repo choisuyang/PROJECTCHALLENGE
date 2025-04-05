@@ -10,6 +10,7 @@ Feature: Login and navigate through the application
     When scroll and find payment text
     When change payment method to one click payment
     Then click password image button
+    Then check success message
     
     # Given the user is on the login page
     # When input login id and password

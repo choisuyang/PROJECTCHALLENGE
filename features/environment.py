@@ -44,11 +44,13 @@ def before_all(context):
     
     # 이전에 저장된 쿠키 불러오기 (로그인 세션 유지)
     try:
-        with open("cookies.json", "r") as file:
-            cookies = json.load(file)
+        # 쿠키 저장
+        cookies = context.driver.get_cookies()
+
+        # 쿠키 재사용
+        context.driver.delete_all_cookies()
         for cookie in cookies:
             context.driver.add_cookie(cookie)
-        context.driver.refresh()
     except FileNotFoundError:
         print("쿠키 파일 없음, 새 로그인 시작.")
    

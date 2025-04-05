@@ -12,12 +12,21 @@ class LoginPage():
 
     # def open(self):
     #     self.driver.get(self.URL)
+    
+    def enter_naver_login(self):
+        self.driver.find_element(By.XPATH, "//*[@id='naver']").click()
+        time.sleep(5)
+        
+        self.driver.find_element(By.XPATH, "//*[@id='scm.selectConfirm']").click()
+        time.sleep(10)
+        
 
     def enter_username(self, username):
         self.driver.find_element(By.XPATH, "//*[@id='id_input']").send_keys(username)
 
     def enter_password(self, password):
         self.driver.find_element(By.XPATH, "//*[@id='password_input']").send_keys(password)
+        time.sleep(40)
 
     def click_login(self):
         self.driver.find_element(By.XPATH, "//*[@id='loginSubmit']").click()

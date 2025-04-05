@@ -21,6 +21,7 @@ def step_impl(context):
     
 @when('input login id and password')
 def step_impl(context):
+    # context.login_page.enter_naver_login()
     context.login_page.enter_username(config.TEST_ID)
     context.login_page.enter_password(config.TEST_PW)
 
@@ -35,8 +36,8 @@ def step_impl(context):
 @given('move to the home page')
 def stp_impl(context):
     context.home_page.close_popup() # 임시로 추가 추후 로그인 고쳐지면 삭제
-    # context.home_page.move_home()
-    # context.home_page.close_popup()
+    context.home_page.move_home()
+    context.home_page.close_popup()
 
 @then('the user swipes right to view rankings')
 def step_impl(context):
@@ -80,4 +81,12 @@ def step_impl(context):
     
 @then('click password image button')
 def step_impl(context):
-    context.order_page.click_password_image()
+    context.order_page.click_password_image(369777)
+     
+# @then('click the last purchase button')
+# def step_impl(context):
+#     context.order_page.click_the_last_purchase_button()
+    
+@then('check success message')
+def step_impl(context):
+    context.order_page.check_success_message()

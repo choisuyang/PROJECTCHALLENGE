@@ -13,12 +13,13 @@ class ProductPage():
 
         
     def check_alert(self):
-        time.sleep(10)
+        time.sleep(5)
         self.driver.find_element(By.XPATH, "//*[@id='wrap']/div[1]/div/div/div/button").click()
         time.sleep(5)
         
     def click_the_option_button(self):
-        self.driver.find_element(By.XPATH, "//*[@id='orderArea']/div[2]/button[2]").click()
+        purchase_button = self.driver.find_element(By.XPATH, "//*[@id='orderArea']/div[2]/button[2]")
+        purchase_button.click()
         time.sleep(5)
     
     def click_option_area(self):
@@ -27,6 +28,7 @@ class ProductPage():
         time.sleep(5)
         
     def click_the_purchase_button(self):
-        self.driver.find_element(By.XPATH, "//*[@id='orderArea']/div[3]/div/div[5]/div[2]/button[3]").click()
+        purchase_button2 = self.driver.find_element(By.XPATH, "//*[@id='orderArea']/div[3]/div/div[5]/div[2]/button[3]")
+        purchase_button2.click()
         time.sleep(10)
         
