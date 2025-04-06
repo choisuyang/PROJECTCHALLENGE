@@ -11,7 +11,7 @@ Feature: Login and navigate through the application
 
   Scenario: Login to the app and navigate to ranking
     Given click the option button
-    # When click option area
+    When click option area
     # Then click the purchase button
     # Given check the order page
     # When scroll and find payment text
