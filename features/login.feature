@@ -6,7 +6,6 @@ Feature: Login and navigate through the application
   @normal
   @allure.label.owner:SuyangChoi
   @allure.link:https://dev.example.com/
-  @allure.issue:UI-123
   @allure.label.story:Labels
 
 
