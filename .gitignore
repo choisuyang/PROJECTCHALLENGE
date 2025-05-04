@@ -3,5 +3,13 @@ logs/
 reports/
 __pycache__/
 *.pyc
-.features/config.py
-.features/pages/OrderPage.py
+
+# Python File
+features/pages/orderpage.py
+
+# Setting config file
+features/config.py
+
+# Allure report
+allure-report/
+allure-results/
