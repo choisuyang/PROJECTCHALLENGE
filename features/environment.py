@@ -15,6 +15,7 @@ from features.pages.RankingPage import RankingPage
 from features.pages.ProductPage import ProductPage
 from features.pages.OrderPage import OrderPage
 from features.pages.CreamPage import CreamPage
+from features.pages.OhouPage import OhouPage
 
 
 def before_all(context):
@@ -65,7 +66,9 @@ def before_all(context):
     context.product_page = ProductPage(context.driver)
     context.order_page = OrderPage(context.driver)
     context.cream_page = CreamPage(context.driver)
-    context.driver.get(config.CREAM_URL)
+    context.ohou = OhouPage(context.driver)
+    context.driver.get(config.OHOU_URL)
+    
 
 def after_all(context):
     if context.driver:
