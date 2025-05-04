@@ -1,2 +1,2 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","15919","Login to the app and navigate to ranking","","Sat Apr 05 15:01:29 KST 2025","passed","Sat Apr 05 15:01:45 KST 2025","","","",""
+"","18599","Purchase Scenario Test to Cream Mobile Web","","Sat May 03 17:20:09 KST 2025","broken","Sat May 03 17:20:27 KST 2025","","","",""

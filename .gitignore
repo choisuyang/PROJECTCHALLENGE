@@ -3,3 +3,5 @@ logs/
 reports/
 __pycache__/
 *.pyc
+.features/config.py
+.features/pages/OrderPage.py
