@@ -1,1 +1,1 @@
-{"total":1,"items":[{"uid":"000d052a36e6892375a6bc477f1f6d89","name":"WebInterface","statistic":{"failed":0,"broken":1,"skipped":0,"passed":0,"unknown":0,"total":1}}]}
+{"total":1,"items":[{"uid":"000d052a36e6892375a6bc477f1f6d89","name":"WebInterface","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}

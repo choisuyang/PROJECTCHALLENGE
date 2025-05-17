@@ -28,9 +28,24 @@ def step_impl(context):
 @when('select the food area by swipe')
 def step_impl(context):
     element = context.driver.find_element(By.XPATH, "//*[contains(@class, 'css-1qm1lh') and contains(@class, 'enbz7te0')]/div/div/ul[@class='css-j1j67n']")
-    context.ohou.swipe_right_with_js(element)
+    clickElement = "//label[contains(., '식품')]"
+    context.ohou.swipe_right_with_js(element, clickElement)
+
+    
+@when('click the purchase button on product page')
+def step_impl(context):
+    context.ohou.click_the_purchase_button_on_product_page()
 
 
 # ///////////////////////////////
 # //////////// THEN /////////////
 # ///////////////////////////////
+
+    
+@then('click first item on best area')
+def step_impl(context):
+    context.ohou.click_first_on_best_area()
+    
+@then('check option size and click option')
+def step_impl(context):
+    context.ohou.check_option_size_and_click_option()

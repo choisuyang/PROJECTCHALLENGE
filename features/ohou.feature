@@ -12,4 +12,8 @@ Feature: Ohou Mobile Web Automation Test
     Given enter the ohou mweb url and close popup
     When scroll to find the best title text
     When select the food area by swipe
+    Then click first item on best area
+    When click the purchase button on product page
+    Then check option size and click option
+    
     
