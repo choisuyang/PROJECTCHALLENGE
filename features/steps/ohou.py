@@ -36,6 +36,9 @@ def step_impl(context):
 def step_impl(context):
     context.ohou.click_the_purchase_button_on_product_page()
 
+@when('click the purchase button on option area')
+def step_impl(context):
+    context.ohou.click_the_purchase_button_on_option_area()
 
 # ///////////////////////////////
 # //////////// THEN /////////////
@@ -49,3 +52,8 @@ def step_impl(context):
 @then('check option size and click option')
 def step_impl(context):
     context.ohou.check_option_size_and_click_option()
+    
+@then('input login id and password in login page')
+def step_impl(context):
+    context.ohou.input_login_id_and_password_in_login_page(config.OHOU_ID, config.OHOU_PW)
+    

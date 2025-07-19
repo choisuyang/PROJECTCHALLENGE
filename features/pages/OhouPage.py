@@ -45,7 +45,7 @@ class OhouPage():
         time.sleep(10)
         
     def click_first_on_best_area(self):    
-        self.wait.wait_and_click(By.XPATH, "//article[contains(@class, 'e1fptbff1')][1]/a")
+        self.wait.wait_and_click(By.XPATH, "//article[contains(@class, 'e1fptbff1')][2]/a")
         time.sleep(10)
             
     def click_the_purchase_button_on_product_page(self):
@@ -63,17 +63,72 @@ class OhouPage():
 
     def selectOptionModule(self, size):
         if (size == 1) :
-            self.wait.wait_and_click(By.XPATH,"/html/body/div[5]/div/div/div/section/div/div/div/select")
+            # self.wait.wait_and_click(By.XPATH,"/html/body/div[5]/div/div/div/section/div/div/div/select")
             time.sleep(5)
             select_elem = self.driver.find_element(By.XPATH, "/html/body/div[5]/div/div/div/section/div/div/div/select")
-            # logging.info("-------------> select_elem: %s", select_elem)            
             select = Select(select_elem)
-            # logging.info("-------------> element detail: %s", select.select_by_visible_text("대추 방울토마토 로얄과 2Kg(11,500원)"))
-            # select.select_by_visible_text("대추 방울토마토 로얄과 2Kg(11,500원)")
-            select.select_by_value("대추 방울토마토 로얄과 2Kg(11,500원)")
-            logging.info("-------------> 옵션 선택 완료")
+            select.select_by_value("0")
             time.sleep(10)
             
         else :
             assert False, "❌ 옵션 사이즈가 1이 아닙니다."
         
+
+    def click_the_purchase_button_on_option_area(self):
+        self.wait.wait_and_click(By.XPATH, "/html/body/div[5]/div/div/div/div[2]/button[2]")
+        time.sleep(10)
+    
+    def react_input(self, element, value):
+        """React 기반 controlled input에 값을 정확히 입력하는 함수"""
+        self.driver.execute_script("""
+            const input = arguments[0];
+            const value = arguments[1];
+
+            // 강제로 value 세팅
+            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+                window.HTMLInputElement.prototype, 'value'
+            ).set;
+            nativeInputValueSetter.call(input, value);
+
+            // 이벤트 생성 (React가 감지하도록)
+            const inputEvent = document.createEvent('HTMLEvents');
+            inputEvent.initEvent('input', true, true);
+            input.dispatchEvent(inputEvent);
+
+            const changeEvent = document.createEvent('HTMLEvents');
+            changeEvent.initEvent('change', true, true);
+            input.dispatchEvent(changeEvent);
+        """, element, value)
+        
+    def input_login_id_and_password_in_login_page(self, id, password):
+        
+        actions = ActionChains(self.driver)
+        
+        email_input = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/main/div[2]/div/form/div[1]/input"))
+        )
+        
+
+        # 이메일 입력
+        # email_input.click()
+        # actions.send_keys(id).perform()
+        self.react_input(email_input, id)
+        
+
+        time.sleep(5)
+        
+        password_input = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/main/div[2]/div/form/div[2]/input"))
+        )
+        
+        
+        # 비밀번호 입력
+        # password_input.click()
+        # actions.send_keys(password).perform()
+        self.react_input(password_input, password)
+        
+        time.sleep(5)
+        # 로그인 버튼 클릭
+        self.wait.wait_and_click(By.XPATH, "/html/body/div[1]/div/main/div[2]/div/form/button")
+        
+        time.sleep(10)
